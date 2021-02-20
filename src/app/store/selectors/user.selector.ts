@@ -13,3 +13,8 @@ export const selectSelectedUser = createSelector(
     selectUsers,
     (state: UserState) => state.selectedUser
 )
+
+export const selectUserTodos = createSelector(
+    selectUsers,
+    (state: UserState) => state.userTodos
+)

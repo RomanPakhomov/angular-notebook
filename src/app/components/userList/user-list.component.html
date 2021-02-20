@@ -1,4 +1,26 @@
-<p>user-list works!</p>
-<div *ngFor="let user of users | async">
-    wxample
-</div>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th></th>
+            <th (click)="sortList('name')" (mouseover)="getIcon('name')" class="column-head">
+                Name
+                <fa-icon [icon]="sortUp" class="sort-icon"></fa-icon>
+            </th>
+            <th (click)="sortList('username')" (mouseover)="getIcon('username')" class="column-head">
+                Username
+                <fa-icon [icon]="sortIcon" class="sort-icon"></fa-icon>
+            </th>
+            <th (click)="sortList('email')" (mouseover)="getIcon('email')" class="column-head">
+                Email
+                <fa-icon [icon]="sortIcon" class="sort-icon"></fa-icon>
+            </th>
+            <th (click)="sortList('name')" (mouseover)="getIcon('address')" class="column-head">
+                Address
+                <fa-icon [icon]="sortIcon" class="sort-icon"></fa-icon>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let user of users | async" [user]="user" (click)="openUserCard(user.id)"></tr>
+    </tbody>
+</table>

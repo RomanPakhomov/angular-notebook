@@ -19,6 +19,18 @@ export const userReducers = (
                 selectedUser: action.payload
             };
         }
+        case EUserActions.getUserTodosSuccess: {
+            return {
+                ...state,
+                userTodos: action.payload
+            }
+        }
+        case EUserActions.clearUserTodos: {
+            return {
+                ...state,
+                userTodos: []
+            }
+        }
 
         default:
             return state;

@@ -1,0 +1,10 @@
+.todo-item{
+    display: flex;
+}
+.todo-title{
+    flex-grow: 1;
+}
+.todo-id{
+    min-width: 25px;
+    margin-right: 5px;
+}

@@ -1,11 +1,15 @@
 import { Action } from "@ngrx/store";
 import { UserModel } from "src/app/types/user.model";
+import { TodoModel } from "src/app/types/todo.model";
 
 export enum EUserActions {
     getUser = 'getUser',
     getUserSuccess = 'getUserSuccess',
     getUsers = 'getUsers',
-    getUsersSuccess = 'getUsersSuccess'
+    getUsersSuccess = 'getUsersSuccess',
+    getUserTodos = 'getUserTodos',
+    getUserTodosSuccess = 'getUserTodosSuccess',
+    clearUserTodos = 'clearUserTodos'
 }
 
 export class GetUsers implements Action {
@@ -27,4 +31,24 @@ export class GetUserSuccess implements Action {
     constructor(public payload: UserModel) {}
 }
 
-export type UserActions = GetUser | GetUsers | GetUserSuccess | GetUsersSuccess;
+export class GetUserTodos implements Action {
+    public readonly type = EUserActions.getUserTodos;
+    constructor(public payload: number) {}
+}
+
+export class GetUserTodosSuccess implements Action {
+    public readonly type = EUserActions.getUserTodosSuccess;
+    constructor(public payload: TodoModel[]) {}
+}
+
+export class ClearUserTodos implements Action {
+    public readonly type = EUserActions.clearUserTodos;
+}
+
+export type UserActions = GetUser 
+    | GetUsers
+    | GetUserSuccess
+    | GetUsersSuccess
+    | GetUserTodos
+    | GetUserTodosSuccess
+    | ClearUserTodos;

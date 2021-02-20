@@ -1,0 +1,14 @@
+tr{
+   cursor: pointer; 
+}
+.sort-icon{
+   margin-left: 3px;
+   display: none;
+}
+.column-head{
+   &:hover{
+      .sort-icon{
+         display: inline;
+      }
+   }
+}
