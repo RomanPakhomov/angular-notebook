@@ -1,3 +1,11 @@
+<div class="input-group mb-4">
+    <select [formControl]="selectedCompany" class="form-select" id="inputGroupSelect04">
+    <option selected [ngValue]="null">Choose company</option>
+    <option *ngFor="let company of companies | async" [ngValue]="company.name">{{ company.name }}</option>
+    </select>
+    <button class="btn btn-outline-secondary" type="button" (click)="removeFilter()">Remove filter</button>
+</div>
+
 <table class="table table-hover">
     <thead>
         <tr>
@@ -8,11 +16,11 @@
             </th>
             <th (click)="sortList('username')" (mouseover)="getIcon('username')" class="column-head">
                 Username
-                <fa-icon [icon]="sortIcon" class="sort-icon"></fa-icon>
+                <fa-icon [icon]="sortIcon" class="sort-icon"></fa-icon> 
             </th>
             <th (click)="sortList('email')" (mouseover)="getIcon('email')" class="column-head">
                 Email
-                <fa-icon [icon]="sortIcon" class="sort-icon"></fa-icon>
+                <fa-icon [icon]="sortIcon" class="sort-icon"></fa-icon>  
             </th>
             <th (click)="sortList('name')" (mouseover)="getIcon('address')" class="column-head">
                 Address

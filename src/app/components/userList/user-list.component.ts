@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { faSortAlphaDown, faSortAlphaDownAlt, faSortAlphaUp } from '@fortawesome/free-solid-svg-icons';
+import { faSortAlphaDown, faSortAlphaUp } from '@fortawesome/free-solid-svg-icons';
 import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { GetUsers } from 'src/app/store/actions/user.actions';
 import { selectUserList } from 'src/app/store/selectors/user.selector';
 import { AppState } from 'src/app/store/state/app.state';
+import { CompanyModel } from 'src/app/types/company.model';
 
 @Component({
   selector: 'app-user-list',
@@ -14,22 +17,24 @@ import { AppState } from 'src/app/store/state/app.state';
 })
 export class UserListComponent implements OnInit {
   users = this.store.pipe(select(selectUserList));
+  companies: Observable<CompanyModel[]> | null;
+  selectedCompany: FormControl = new FormControl(null);
   sortKey: string = 'name';
   sortDown = faSortAlphaDown;
   sortUp = faSortAlphaUp;
   sortIcon = faSortAlphaDown;
 
-  constructor(private store: Store<AppState>, private router: Router) {}
-
-  ngOnInit(): void {
+  constructor(private store: Store<AppState>, private router: Router) {
+    this.companies = null;
     this.store.dispatch(new GetUsers);
+    this.getCompanies();
+    this.selectedCompany.valueChanges.subscribe(value => this.filterByCompany(value));
   }
 
+  ngOnInit(): void {}
+
   getIcon(sortKey: string) {
-    console.log('sortKey', sortKey);
-    console.log('this.sortKey', this.sortKey);
     this.sortIcon = (sortKey === this.sortKey) ? this.sortUp : this.sortDown;
-    console.log(this.sortIcon)
   }
 
   compareIcon(key: string){
@@ -38,6 +43,29 @@ export class UserListComponent implements OnInit {
 
   openUserCard(id: number): void {
     this.router.navigate(['user', id])
+  }
+
+  getCompanies(): void {
+    this.companies = this.store.pipe(
+      select(selectUserList),
+      map(users => users.map(user => user.company))
+    );
+  }
+
+  filterByCompany(selectedCompany: string): void {
+    if(selectedCompany === null){
+      this.users = this.store.pipe(select(selectUserList));
+    } else {
+      this.users = this.store.pipe(
+        select(selectUserList),
+        map(users => users.filter(user => user.company.name === selectedCompany))
+      );
+    }
+  }
+
+  removeFilter(): void {
+    this.users = this.store.pipe(select(selectUserList));
+    this.selectedCompany.reset(null)
   }
 
   sortList(key: string): void {
