@@ -9,6 +9,7 @@ import { GetUsers } from 'src/app/store/actions/user.actions';
 import { selectUserList } from 'src/app/store/selectors/user.selector';
 import { AppState } from 'src/app/store/state/app.state';
 import { CompanyModel } from 'src/app/types/company.model';
+import { UserModel } from 'src/app/types/user.model';
 
 @Component({
   selector: 'app-user-list',
@@ -16,16 +17,18 @@ import { CompanyModel } from 'src/app/types/company.model';
   styleUrls: ['./user-list.component.scss']
 })
 export class UserListComponent implements OnInit {
-  users = this.store.pipe(select(selectUserList));
-  companies: Observable<CompanyModel[]> | null;
+  users: Observable<UserModel[]>;
+  companies: Observable<CompanyModel[]>;
   selectedCompany: FormControl = new FormControl(null);
+  p: number = 1;
   sortKey: string = 'name';
   sortDown = faSortAlphaDown;
   sortUp = faSortAlphaUp;
   sortIcon = faSortAlphaDown;
 
   constructor(private store: Store<AppState>, private router: Router) {
-    this.companies = null;
+    this.users = this.store.pipe(select(selectUserList))
+    this.companies = new Observable;
     this.store.dispatch(new GetUsers);
     this.getCompanies();
     this.selectedCompany.valueChanges.subscribe(value => this.filterByCompany(value));
