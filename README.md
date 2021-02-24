@@ -1,6 +1,6 @@
 # Angular Notebook
 
-Simple notebook application with filter, sorting and padination.
+Simple notebook application with filter, sorting and pagination.
 
 ## How to start
 
