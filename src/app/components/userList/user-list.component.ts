@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { faSortAlphaDown, faSortAlphaUp } from '@fortawesome/free-solid-svg-icons';
+import { faSort, faSortAlphaDown, faSortAlphaUp } from '@fortawesome/free-solid-svg-icons';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -23,9 +23,7 @@ export class UserListComponent implements OnInit {
   selectedCompany: FormControl = new FormControl(null);
   p: number = 1;
   sortKey: string = 'name';
-  sortDown = faSortAlphaDown;
-  sortUp = faSortAlphaUp;
-  sortIcon = faSortAlphaDown;
+  sort = faSort;
 
   constructor(private store: Store<AppState>, private router: Router) {
     this.users = this.store.pipe(select(selectUserList))
@@ -36,14 +34,6 @@ export class UserListComponent implements OnInit {
   }
 
   ngOnInit(): void {}
-
-  getIcon(sortKey: string) {
-    this.sortIcon = (sortKey === this.sortKey) ? this.sortDown : this.sortUp;
-  }
-
-  compareIcon(key: string){
-    return key === this.sortKey;
-  }
 
   openUserCard(id: number): void {
     this.router.navigate(['user', id])
@@ -85,8 +75,8 @@ export class UserListComponent implements OnInit {
       this.sortKey = key + '-reverse';
     } else {
       this.users = this.users.pipe(map((data) => {
+        this.sortKey = key;
         return data.slice().sort((a, b) => {
-          this.sortKey = key;
           if(a[key] instanceof Object){
             return JSON.stringify(a[key]).localeCompare(JSON.stringify(b[key]));
           }

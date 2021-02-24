@@ -4,7 +4,7 @@ import { select, Store } from "@ngrx/store";
 import { UserService } from "src/app/services/user.service";
 import { EUserActions, GetUser, GetUsers, GetUsersSuccess, GetUserSuccess, GetUserTodos, GetUserTodosSuccess } from "../actions/user.actions";
 import { AppState } from "../state/app.state";
-import { catchError, map, switchMap, take, withLatestFrom } from "rxjs/operators";
+import { map, switchMap, withLatestFrom } from "rxjs/operators";
 import { ofType } from "@ngrx/effects";
 import { of } from "rxjs";
 import { UserModel } from "src/app/types/user.model";
@@ -22,7 +22,10 @@ export class UserEffects {
     getUsers = createEffect(() => this.actions.pipe(
         ofType<GetUsers>(EUserActions.getUsers),
         switchMap(() => this.userService.getUsers()),
-        switchMap((users: UserModel[]) => of(new GetUsersSuccess(users)))
+        switchMap((users: UserModel[]) => {
+            const sortedUsers = users.sort((a,b) => a.name.localeCompare(b.name));
+            return of(new GetUsersSuccess(sortedUsers))
+        })
     ))
 
     getUser = createEffect(() => this.actions.pipe(
@@ -31,11 +34,9 @@ export class UserEffects {
         withLatestFrom(this.store.pipe(select(selectUserList))),
         switchMap(([id, users]) => {
             const selectedUser = users.filter((user: UserModel) => user.id === +id)[0];
-            console.log(selectedUser);
             return of({selectedUser, id});
         }),
         switchMap(({selectedUser, id}) => {
-            console.log(selectedUser, id)
             if(selectedUser){
                 return of(selectedUser);
             }

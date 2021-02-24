@@ -11,21 +11,21 @@
         <thead>
             <tr>
                 <th></th>
-                <th (click)="sortList('name')" (mouseover)="getIcon('name')" class="column-head">
+                <th (click)="sortList('name')" class="column-head">
                     Name
-                    <fa-icon [icon]="sortIcon" class="sort-icon"></fa-icon>
+                    <fa-icon [icon]="sort" class="sort-icon"></fa-icon>
                 </th>
-                <th (click)="sortList('username')" (mouseover)="getIcon('username')" class="column-head">
+                <th (click)="sortList('username')" class="column-head">
                     Username
-                    <fa-icon [icon]="sortIcon" class="sort-icon"></fa-icon> 
+                    <fa-icon [icon]="sort" class="sort-icon"></fa-icon>
                 </th>
-                <th (click)="sortList('email')" (mouseover)="getIcon('email')" class="column-head">
+                <th (click)="sortList('email')" class="column-head">
                     Email
-                    <fa-icon [icon]="sortIcon" class="sort-icon"></fa-icon>  
+                    <fa-icon [icon]="sort" class="sort-icon"></fa-icon> 
                 </th>
-                <th (click)="sortList('address')" (mouseover)="getIcon('address')" class="column-head">
+                <th (click)="sortList('address')" class="column-head">
                     Address
-                    <fa-icon [icon]="sortIcon" class="sort-icon"></fa-icon>
+                    <fa-icon [icon]="sort" class="sort-icon"></fa-icon>
                 </th>
             </tr>
         </thead>
