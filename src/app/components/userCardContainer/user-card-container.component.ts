@@ -25,7 +25,6 @@ export class UserCardContainerComponent implements OnInit, OnDestroy {
   }
 
   checkUser(): boolean {
-    console.log(this.selectedUser);
     return Boolean(this.selectedUser);
   }
 
