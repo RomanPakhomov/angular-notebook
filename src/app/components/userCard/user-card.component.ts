@@ -16,19 +16,19 @@ export class UserCardComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  get name() {
+  get name():string {
     return this.userInfo?.name;
   }
 
-  get username() {
+  get username():string {
     return this.userInfo?.username;
   }
 
-  get email() {
+  get email():string {
     return this.userInfo?.email;
   }
 
-  get address() {
+  get address():string {
     const address = this.userInfo?.address;
     return address ? `${address?.city} ${address?.street} ${address?.suite}` : '';
   }

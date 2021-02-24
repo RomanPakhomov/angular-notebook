@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { faSort, faSortAlphaDown, faSortAlphaUp } from '@fortawesome/free-solid-svg-icons';
+import { faSort, faSortAlphaDown, faSortAlphaUp, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -69,7 +69,7 @@ export class UserListComponent implements OnInit {
     this.selectedCompany.reset(null);
   }
 
-  sortIcon(key: string){
+  sortIcon(key: string): IconDefinition{
     const reverse = key + '-reverse';
     switch(this.sortKey){
       case key:
