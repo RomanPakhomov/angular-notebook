@@ -13,19 +13,19 @@
                 <th></th>
                 <th (click)="sortList('name')" class="column-head">
                     Name
-                    <fa-icon [icon]="sort" class="sort-icon"></fa-icon>
+                    <fa-icon [icon]="sortIcon('name')" class="sort-icon"></fa-icon>
                 </th>
                 <th (click)="sortList('username')" class="column-head">
                     Username
-                    <fa-icon [icon]="sort" class="sort-icon"></fa-icon>
+                    <fa-icon [icon]="sortIcon('username')" class="sort-icon"></fa-icon>
                 </th>
                 <th (click)="sortList('email')" class="column-head">
                     Email
-                    <fa-icon [icon]="sort" class="sort-icon"></fa-icon> 
+                    <fa-icon [icon]="sortIcon('email')" class="sort-icon"></fa-icon> 
                 </th>
                 <th (click)="sortList('address')" class="column-head">
                     Address
-                    <fa-icon [icon]="sort" class="sort-icon"></fa-icon>
+                    <fa-icon [icon]="sortIcon('address')" class="sort-icon"></fa-icon>
                 </th>
             </tr>
         </thead>
