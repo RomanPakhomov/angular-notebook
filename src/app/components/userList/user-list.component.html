@@ -6,30 +6,46 @@
     <button class="btn btn-outline-secondary" type="button" (click)="removeFilter()">Remove filter</button>
 </div>
 
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th></th>
-            <th (click)="sortList('name')" (mouseover)="getIcon('name')" class="column-head">
-                Name
-                <fa-icon [icon]="sortUp" class="sort-icon"></fa-icon>
-            </th>
-            <th (click)="sortList('username')" (mouseover)="getIcon('username')" class="column-head">
-                Username
-                <fa-icon [icon]="sortIcon" class="sort-icon"></fa-icon> 
-            </th>
-            <th (click)="sortList('email')" (mouseover)="getIcon('email')" class="column-head">
-                Email
-                <fa-icon [icon]="sortIcon" class="sort-icon"></fa-icon>  
-            </th>
-            <th (click)="sortList('name')" (mouseover)="getIcon('address')" class="column-head">
-                Address
-                <fa-icon [icon]="sortIcon" class="sort-icon"></fa-icon>
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let user of users | async | paginate: { itemsPerPage: 3, currentPage: p }" [user]="user" (click)="openUserCard(user.id)"></tr>
-    </tbody>
-</table>
-<pagination-controls (pageChange)="p = $event"></pagination-controls>
+<div class="table-container">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th></th>
+                <th (click)="sortList('name')" (mouseover)="getIcon('name')" class="column-head">
+                    Name
+                    <fa-icon [icon]="sortIcon" class="sort-icon"></fa-icon>
+                </th>
+                <th (click)="sortList('username')" (mouseover)="getIcon('username')" class="column-head">
+                    Username
+                    <fa-icon [icon]="sortIcon" class="sort-icon"></fa-icon> 
+                </th>
+                <th (click)="sortList('email')" (mouseover)="getIcon('email')" class="column-head">
+                    Email
+                    <fa-icon [icon]="sortIcon" class="sort-icon"></fa-icon>  
+                </th>
+                <th (click)="sortList('address')" (mouseover)="getIcon('address')" class="column-head">
+                    Address
+                    <fa-icon [icon]="sortIcon" class="sort-icon"></fa-icon>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of users | async | paginate: { itemsPerPage: 3, currentPage: p }" (click)="openUserCard(user.id)">
+                <td>
+                    <div
+                        class="avatar"
+                        [ngStyle]="{backgroundImage:'url(https://via.placeholder.com/120x160)'}"
+                    ></div>
+                </td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ createUserAddress(user.address) }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="pagination">
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>

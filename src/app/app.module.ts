@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { UserListItemComponent } from './components/userListItem/user-list-item.component';
 import { UserCardComponent } from './components/userCard/user-card.component';
 import { UserService } from './services/user.service';
 import { UserListComponent } from './components/userList/user-list.component';
@@ -23,7 +22,6 @@ import { NgxPaginationModule } from 'ngx-pagination';
 @NgModule({
   declarations: [
     AppComponent,
-    UserListItemComponent,
     UserCardComponent,
     UserListComponent,
     UserCardContainerComponent

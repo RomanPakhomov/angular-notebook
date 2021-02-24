@@ -1,4 +1,12 @@
-<user-card
-    [userInfo]="selectedUser | async"
+<user-card *ngIf="(selectedUser | async) as user; else error"
+    [userInfo]="user"
     [todos]="userTodos | async"
 ></user-card>
+
+<ng-template #error>
+    <div class="alert alert-warning">
+        <div>
+            Пользователь не найден, <a [routerLink]="['/']">вернуться на главную</a>
+        </div>
+    </div>
+</ng-template>

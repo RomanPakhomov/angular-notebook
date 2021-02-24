@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { faSortAlphaDown, faSortAlphaUp } from '@fortawesome/free-solid-svg-icons';
 import { select, Store } from '@ngrx/store';
@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 import { GetUsers } from 'src/app/store/actions/user.actions';
 import { selectUserList } from 'src/app/store/selectors/user.selector';
 import { AppState } from 'src/app/store/state/app.state';
+import { AddressModel } from 'src/app/types/address.model';
 import { CompanyModel } from 'src/app/types/company.model';
 import { UserModel } from 'src/app/types/user.model';
 
@@ -37,7 +38,7 @@ export class UserListComponent implements OnInit {
   ngOnInit(): void {}
 
   getIcon(sortKey: string) {
-    this.sortIcon = (sortKey === this.sortKey) ? this.sortUp : this.sortDown;
+    this.sortIcon = (sortKey === this.sortKey) ? this.sortDown : this.sortUp;
   }
 
   compareIcon(key: string){
@@ -55,6 +56,10 @@ export class UserListComponent implements OnInit {
     );
   }
 
+  createUserAddress(address: AddressModel): string {
+    return `${address.city}, ${address.street}, ${address.suite}`;
+  }
+
   filterByCompany(selectedCompany: string): void {
     if(selectedCompany === null){
       this.users = this.store.pipe(select(selectUserList));
@@ -64,11 +69,12 @@ export class UserListComponent implements OnInit {
         map(users => users.filter(user => user.company.name === selectedCompany))
       );
     }
+    this.p = 1;
   }
 
   removeFilter(): void {
     this.users = this.store.pipe(select(selectUserList));
-    this.selectedCompany.reset(null)
+    this.selectedCompany.reset(null);
   }
 
   sortList(key: string): void {
@@ -76,6 +82,7 @@ export class UserListComponent implements OnInit {
       this.users = this.users.pipe(map((data) => {
         return data.slice().reverse();
       }))
+      this.sortKey = key + '-reverse';
     } else {
       this.users = this.users.pipe(map((data) => {
         return data.slice().sort((a, b) => {

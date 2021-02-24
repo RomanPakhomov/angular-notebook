@@ -24,6 +24,11 @@ export class UserCardContainerComponent implements OnInit, OnDestroy {
     this.userTodos = this.store.pipe(select(selectUserTodos));
   }
 
+  checkUser(): boolean {
+    console.log(this.selectedUser);
+    return Boolean(this.selectedUser);
+  }
+
   ngOnInit(): void {
     this.store.dispatch(new GetUser(this.userId));
     this.store.dispatch(new GetUserTodos(this.userId));
@@ -31,6 +36,6 @@ export class UserCardContainerComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.store.dispatch(new ClearUserTodos());
-  } 
+  }
 
 }

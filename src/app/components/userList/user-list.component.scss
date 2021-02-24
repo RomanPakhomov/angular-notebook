@@ -1,18 +1,40 @@
-th{
-   white-space: nowrap;
+.pagination{
+   display: flex;
+   justify-content: center;
 }
-tr{
-   cursor: pointer; 
-}
-.sort-icon{
-   display: inline;
-   margin-left: 3px;
-   opacity: 0;
-}
-.column-head{
-   &:hover{
-      .sort-icon{
-         opacity: 1;
+.table-container {
+   margin-bottom: 1rem;
+
+   th{
+      white-space: nowrap;
+   }
+   tr{
+      cursor: pointer; 
+   }
+   .sort-icon{
+      display: inline;
+      margin-left: 0.1rem;
+      opacity: 0;
+   }
+   .column-head{
+      &:hover{
+         .sort-icon{
+            opacity: 1;
+         }
       }
+   }
+
+   .avatar{
+      width: 60px;
+      height: 60px;
+      border-radius: 30px;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: cover;
+  }
+
+   @media(max-width: 800px){
+      overflow: hidden;
+      overflow-x: overlay;
    }
 }

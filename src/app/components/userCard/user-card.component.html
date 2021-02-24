@@ -1,21 +1,30 @@
 <div class="card user-card mb-3">
     <div class="card-body">
-        <div class="user-card-item">
-            <span class="item-title">name</span>
-            <span class="item-value">{{ name }}</span>
+        <div class="avatar-wrap">
+            <div
+                class="avatar"
+                [ngStyle]="{backgroundImage:'url(https://via.placeholder.com/120x160)'}"
+            ></div> 
         </div>
-        <div class="user-card-item">
-            <span class="item-title">username</span>
-            <span class="item-value">{{ username }}</span>
+        <div class="user-info-wrap">
+            <div class="user-card-item">
+                <span class="item-title">name</span>
+                <span class="item-value">{{ name }}</span>
+            </div>
+            <div class="user-card-item">
+                <span class="item-title">username</span>
+                <span class="item-value">{{ username }}</span>
+            </div>
+            <div class="user-card-item">
+                <span class="item-title">email</span>
+                <span class="item-value">{{ email }}</span>
+            </div>
+            <div class="user-card-item">
+                <span class="item-title">address</span>
+                <span class="item-value">{{ address }}</span>
+            </div>
         </div>
-        <div class="user-card-item">
-            <span class="item-title">email</span>
-            <span class="item-value">{{ email }}</span>
-        </div>
-        <div class="user-card-item">
-            <span class="item-title">address</span>
-            <span class="item-value">{{ address }}</span>
-        </div>
+        
     </div>
 </div>
 <ul class="list-group user-todos">
