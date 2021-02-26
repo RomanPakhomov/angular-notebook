@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { faSort, faSortAlphaDown, faSortAlphaUp, IconDefinition } from '@fortawesome/free-solid-svg-icons';
@@ -8,7 +8,6 @@ import { map } from 'rxjs/operators';
 import { GetUsers } from 'src/app/store/actions/user.actions';
 import { selectUserList } from 'src/app/store/selectors/user.selector';
 import { AppState } from 'src/app/store/state/app.state';
-import { AddressModel } from 'src/app/types/address.model';
 import { CompanyModel } from 'src/app/types/company.model';
 import { UserModel } from 'src/app/types/user.model';
 
@@ -17,7 +16,7 @@ import { UserModel } from 'src/app/types/user.model';
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.scss']
 })
-export class UserListComponent implements OnInit {
+export class UserListComponent {
   users: Observable<UserModel[]>;
   companies: Observable<CompanyModel[]>;
   selectedCompany: FormControl = new FormControl(null);
@@ -35,8 +34,6 @@ export class UserListComponent implements OnInit {
     this.selectedCompany.valueChanges.subscribe(value => this.filterByCompany(value));
   }
 
-  ngOnInit(): void {}
-
   openUserCard(id: number): void {
     this.router.navigate(['user', id])
   }
@@ -46,10 +43,6 @@ export class UserListComponent implements OnInit {
       select(selectUserList),
       map(users => users.map(user => user.company))
     );
-  }
-
-  createUserAddress(address: AddressModel): string {
-    return `${address.city}, ${address.street}, ${address.suite}`;
   }
 
   filterByCompany(selectedCompany: string): void {

@@ -1,4 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
+import { Component, Input } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { AddressModel } from 'src/app/types/address.model';
 import { TodoModel } from 'src/app/types/todo.model';
 import { UserModel } from 'src/app/types/user.model';
 
@@ -7,30 +10,42 @@ import { UserModel } from 'src/app/types/user.model';
   templateUrl: './user-card.component.html',
   styleUrls: ['./user-card.component.scss']
 })
-export class UserCardComponent implements OnInit {
+export class UserCardComponent {
   @Input() userInfo: UserModel | null = null;
   @Input() todos: TodoModel[] | null = null;
+  private history: string[] = [];
 
-  constructor() {}
-
-  ngOnInit(): void {
+  constructor(private location: Location, private router: Router){
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.history.push(event.urlAfterRedirects)
+      }
+    })
   }
 
-  get name():string {
+  back(){
+    this.history.pop()
+    if (this.history.length > 0) {
+      this.location.back()
+    } else {
+      this.router.navigateByUrl('/')
+    }
+  }
+
+  get name(): string {
     return this.userInfo?.name;
   }
 
-  get username():string {
+  get username(): string {
     return this.userInfo?.username;
   }
 
-  get email():string {
+  get email(): string {
     return this.userInfo?.email;
   }
 
-  get address():string {
-    const address = this.userInfo?.address;
-    return address ? `${address?.city} ${address?.street} ${address?.suite}` : '';
+  get address(): AddressModel {
+    return this.userInfo?.address;
   }
   
 }

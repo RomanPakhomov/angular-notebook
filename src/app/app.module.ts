@@ -18,13 +18,15 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { UserCardContainerComponent } from './components/userCardContainer/user-card-container.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { PipeCreateAddressLine } from './pipes/create-address-line.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     UserCardComponent,
     UserListComponent,
-    UserCardContainerComponent
+    UserCardContainerComponent,
+    PipeCreateAddressLine
   ],
   imports: [
     HttpClientModule,

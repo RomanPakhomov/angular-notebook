@@ -1,3 +1,6 @@
+<button class="btn btn-secondary btn-sm mb-3" (click)="back()">
+    Назад к списку
+</button>
 <div class="card user-card mb-3">
     <div class="card-body">
         <div class="avatar-wrap">
@@ -21,7 +24,7 @@
             </div>
             <div class="user-card-item">
                 <span class="item-title">address</span>
-                <span class="item-value">{{ address }}</span>
+                <span class="item-value">{{ address | pipeCreateAddressLine }}</span>
             </div>
         </div>
         

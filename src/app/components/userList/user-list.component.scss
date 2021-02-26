@@ -1,5 +1,21 @@
-::ng-deep .ngx-pagination{
-   padding-left: 0rem;
+::ng-deep{
+   .ngx-pagination{
+      padding-left: 0rem;
+   }
+   
+   .form-select {
+      &:focus{
+         border: 1px solid #ced4da;
+         outline: 0;
+         box-shadow: none;
+      }
+   }
+   
+   .btn-outline-secondary{
+      &:focus{
+         box-shadow: none !important;
+      }
+   }
 }
 
 .table-container {

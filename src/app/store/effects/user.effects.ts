@@ -33,7 +33,7 @@ export class UserEffects {
         map(action => action.payload),
         withLatestFrom(this.store.pipe(select(selectUserList))),
         switchMap(([id, users]) => {
-            const selectedUser = users.filter((user: UserModel) => user.id === +id)[0];
+            const selectedUser = users.find((user: UserModel) => user.id === Number(id));
             return of({selectedUser, id});
         }),
         switchMap(({selectedUser, id}) => {
