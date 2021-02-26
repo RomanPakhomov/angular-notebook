@@ -32,10 +32,12 @@
         }
     }
 
-    .user-info-wrap {
-        overflow: hidden;
-        overflow-x: scroll;
-        padding-bottom: 10px
+    @media(max-width:500px){
+        .user-info-wrap {
+            overflow: hidden;
+            overflow-x: scroll;
+            padding-bottom: 10px
+        }
     }
 }
 
