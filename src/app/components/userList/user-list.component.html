@@ -3,14 +3,14 @@
     <option selected [ngValue]="null">Choose company</option>
     <option *ngFor="let company of companies | async" [ngValue]="company.name">{{ company.name }}</option>
     </select>
-    <button class="btn btn-outline-secondary" type="button" (click)="removeFilter()">Remove filter</button>
+    <button class="btn btn-secondary" type="button" (click)="removeFilter()">Remove filter</button>
 </div>
 
 <div class="table-container">
     <table class="table table-hover">
         <thead>
             <tr>
-                <th></th>
+                <th class="avatar-col"></th>
                 <th (click)="sortList('name')" class="column-head">
                     Name
                     <fa-icon [icon]="sortIcon('name')" class="sort-icon"></fa-icon>
@@ -30,14 +30,15 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let user of users | async | paginate: { itemsPerPage: 3, currentPage: p }" (click)="openUserCard(user.id)">
-                <td>
+            <tr *ngFor="let user of users | async | paginate: { itemsPerPage: 3, currentPage: p }">
+                <td class="avatar-col">
                     <div
                         class="avatar"
+                        (click)="openUserCard(user.id)"
                         [ngStyle]="{backgroundImage:'url(https://via.placeholder.com/120x160)'}"
                     ></div>
                 </td>
-                <td>{{ user.name }}</td>
+                <td><div (click)="openUserCard(user.id)" class="name">{{ user.name }}</div></td>
                 <td>{{ user.username }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.address | pipeCreateAddressLine }}</td>

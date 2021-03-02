@@ -1,3 +1,19 @@
-<div class="container py-5">
-   <router-outlet></router-outlet> 
-</div>
+<header class="header">
+   <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+     <div class="container">
+         <h2>
+            Angular simple notebook
+         </h2>
+     </div>
+   </nav>
+ </header>
+ <content class="content">
+   <div class="container">
+     <router-outlet></router-outlet>
+   </div>
+ </content>
+ <footer class="footer mt-auto">
+   <div class="container">
+     <div>Made by Roman Pakhomov, 2021</div>
+   </div>
+ </footer>

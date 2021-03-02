@@ -1,3 +1,27 @@
+::ng-deep {
+    
+  body{
+      background: #F5F5F5;  
+  }
+
+  ::-webkit-scrollbar {
+      width: 0px;
+  }
+}
+
+.content{
+  margin-top: 6rem;
+  margin-bottom: 2rem;
+}
+
+.footer{
+  background-color: #212529 !important;
+  color: #efefef;
+  padding: 1rem
+}
 .container{
   max-width: 800px;
+}
+.header{
+  color: #fff;
 }
