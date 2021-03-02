@@ -1,14 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { faSort, faSortAlphaDown, faSortAlphaUp, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { SetNotebookFilter, SetNotebookPage } from 'src/app/store/actions/config.actions';
 import { GetUsers } from 'src/app/store/actions/user.actions';
+import { selectNotebookConfig } from 'src/app/store/selectors/config.selector';
 import { selectUserList } from 'src/app/store/selectors/user.selector';
 import { AppState } from 'src/app/store/state/app.state';
 import { CompanyModel } from 'src/app/types/company.model';
+import { NotebookConfigModel } from 'src/app/types/configuration.model';
 import { UserModel } from 'src/app/types/user.model';
 
 @Component({
@@ -16,10 +19,13 @@ import { UserModel } from 'src/app/types/user.model';
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.scss']
 })
-export class UserListComponent {
+export class UserListComponent implements OnDestroy{
   users: Observable<UserModel[]>;
   companies: Observable<CompanyModel[]>;
   selectedCompany: FormControl = new FormControl(null);
+  selectedCompanySubscription: Subscription = new Subscription();
+  notebookConfigs: Observable<NotebookConfigModel>;
+  currentFilterSubscription: Subscription;
   p: number = 1;
   sortKey: string = 'name';
   sort = faSort;
@@ -31,7 +37,29 @@ export class UserListComponent {
     this.companies = new Observable;
     this.store.dispatch(new GetUsers);
     this.getCompanies();
-    this.selectedCompany.valueChanges.subscribe(value => this.filterByCompany(value));
+    this.notebookConfigs = this.store.pipe(select(selectNotebookConfig));
+    this.currentFilterSubscription = this.notebookConfigs.subscribe(value => {
+      if(value?.currentFilter?.companyName && !this.selectedCompany.value){
+        this.selectedCompany.setValue(value.currentFilter.companyName);
+        this.filterByCompany(value.currentFilter.companyName);
+      }
+      if(value?.currentPage){
+        this.p = value.currentPage;
+      }
+    })
+    this.selectedCompanySubscription = this.selectedCompany.valueChanges.subscribe(value => {
+      this.filterByCompany(value);
+      this.store.dispatch(new SetNotebookFilter(value));
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.selectedCompanySubscription.unsubscribe();
+    this.currentFilterSubscription.unsubscribe();
+  }
+
+  pageChanged(p: number): void {
+    this.store.dispatch(new SetNotebookPage(p));
   }
 
   openUserCard(id: number): void {
@@ -54,10 +82,11 @@ export class UserListComponent {
         map(users => users.filter(user => user.company.name === selectedCompany))
       );
     }
-    this.p = 1;
+    this.store.dispatch(new SetNotebookPage(1));
   }
 
   removeFilter(): void {
+    this.store.dispatch(new SetNotebookFilter(null));
     this.users = this.store.pipe(select(selectUserList));
     this.selectedCompany.reset(null);
   }
