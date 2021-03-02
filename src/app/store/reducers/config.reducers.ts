@@ -12,7 +12,6 @@ export const configReducers = (
         }
         case EConfigActions.setNotebookFilter: {
             return {
-                ...state,
                 notebookConfig: {
                     ...state.notebookConfig,
                     currentFilter: {
@@ -23,10 +22,17 @@ export const configReducers = (
         }
         case EConfigActions.setNotebookPage: {
             return {
-                ...state,
                 notebookConfig: {
                     ...state.notebookConfig,
                     currentPage: action.payload
+                }
+            }
+        }
+        case EConfigActions.SetNotebookSortField: {
+            return {
+                notebookConfig: {
+                    ...state.notebookConfig,
+                    currentSortField: action.payload
                 }
             }
         }

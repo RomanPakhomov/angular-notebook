@@ -3,7 +3,8 @@ import { Action } from "@ngrx/store";
 export enum EConfigActions {
     getNotebookConfig = 'getNotebookConfig',
     setNotebookPage = 'setNotebookPage',
-    setNotebookFilter = 'setNotebookFilter'
+    setNotebookFilter = 'setNotebookFilter',
+    SetNotebookSortField = 'setNotebookSortField'
 }
 
 export class GetNotebookConfig implements Action {
@@ -20,6 +21,12 @@ export class SetNotebookFilter implements Action {
     constructor(public payload: string) {}
 }
 
+export class SetNotebookSortField implements Action {
+    public readonly type = EConfigActions.SetNotebookSortField;
+    constructor(public payload: string) {}
+}
+
 export type ConfigActions = GetNotebookConfig
     | SetNotebookPage
-    | SetNotebookFilter;
+    | SetNotebookFilter
+    | SetNotebookSortField;
