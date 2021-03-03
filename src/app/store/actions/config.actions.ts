@@ -4,7 +4,8 @@ export enum EConfigActions {
     getNotebookConfig = 'getNotebookConfig',
     setNotebookPage = 'setNotebookPage',
     setNotebookFilter = 'setNotebookFilter',
-    SetNotebookSortField = 'setNotebookSortField'
+    SetNotebookSortField = 'setNotebookSortField',
+    SetNotebookSortVector = 'setNotebookSortVector'
 }
 
 export class GetNotebookConfig implements Action {
@@ -26,7 +27,13 @@ export class SetNotebookSortField implements Action {
     constructor(public payload: string) {}
 }
 
+export class SetNotebookSortVector implements Action {
+    public readonly type = EConfigActions.SetNotebookSortVector;
+    constructor(public payload: string) {}
+}
+
 export type ConfigActions = GetNotebookConfig
     | SetNotebookPage
     | SetNotebookFilter
-    | SetNotebookSortField;
+    | SetNotebookSortField
+    | SetNotebookSortVector;

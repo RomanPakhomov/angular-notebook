@@ -32,7 +32,21 @@ export const configReducers = (
             return {
                 notebookConfig: {
                     ...state.notebookConfig,
-                    currentSortField: action.payload
+                    currentSort: {
+                        ...state.notebookConfig.currentSort,
+                        sortField: action.payload
+                    }
+                }
+            }
+        }
+        case EConfigActions.SetNotebookSortVector: {
+            return {
+                notebookConfig: {
+                    ...state.notebookConfig,
+                    currentSort: {
+                        ...state.notebookConfig.currentSort,
+                        sortVector: action.payload
+                    }
                 }
             }
         }

@@ -1,6 +1,9 @@
 export interface NotebookConfigModel {
-    currentSortField?: string;
     currentPage?: number,
+    currentSort?: {
+        sortField?: string;
+        sortVector?: string;
+    }
     currentFilter?: {
         companyName?: string
     }

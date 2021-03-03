@@ -5,7 +5,9 @@ import { faSort, faSortAlphaDown, faSortAlphaUp, IconDefinition } from '@fortawe
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { SetNotebookFilter, SetNotebookPage } from 'src/app/store/actions/config.actions';
+import { sortFieldId } from 'src/app/constants/sort-fileds.enum';
+import { sortVectorId } from 'src/app/constants/sort-vectors.enum';
+import { SetNotebookFilter, SetNotebookPage, SetNotebookSortField, SetNotebookSortVector } from 'src/app/store/actions/config.actions';
 import { GetUsers } from 'src/app/store/actions/user.actions';
 import { selectNotebookConfig } from 'src/app/store/selectors/config.selector';
 import { selectUserList } from 'src/app/store/selectors/user.selector';
@@ -27,7 +29,8 @@ export class UserListComponent implements OnDestroy{
   notebookConfigs: Observable<NotebookConfigModel>;
   currentFilterSubscription: Subscription;
   p: number = 1;
-  sortKey: string = 'name';
+  sortField: string = sortFieldId.NAME;
+  sortVector: string = sortVectorId.ASC;
   sort = faSort;
   sortUp = faSortAlphaUp;
   sortDown = faSortAlphaDown;
@@ -45,6 +48,9 @@ export class UserListComponent implements OnDestroy{
       }
       if(value?.currentPage){
         this.p = value.currentPage;
+      }
+      if(value?.currentSort?.sortField && value?.currentSort?.sortVector){
+        this.sortList2(value.currentSort.sortField, value.currentSort.sortVector);
       }
     })
     this.selectedCompanySubscription = this.selectedCompany.valueChanges.subscribe(value => {
@@ -91,34 +97,42 @@ export class UserListComponent implements OnDestroy{
     this.selectedCompany.reset(null);
   }
 
-  sortIcon(key: string): IconDefinition{
-    const reverse = key + '-reverse';
-    switch(this.sortKey){
-      case key:
+  sortIcon(field: string): IconDefinition{
+    if(field !== this.sortField){
+      return this.sort;
+    }
+    switch(this.sortVector){
+      case sortVectorId.ASC:
         return this.sortDown
-      case reverse:
+      case sortVectorId.DESC:
         return this.sortUp
       default:
         return this.sort
     }
   }
 
-  sortList(key: string): void {
-    if(this.sortKey === key){
-      this.sortKey = key + '-reverse';
-      this.users = this.users.pipe(map((data) => {
-        return data.slice().reverse();
-      }))
-    } else {
-      this.sortKey = key;
-      this.users = this.users.pipe(map((data) => {
-        return data.slice().sort((a, b) => {
-          if(a[key] instanceof Object){
-            return JSON.stringify(a[key]).localeCompare(JSON.stringify(b[key]));
-          }
-          return a[key].localeCompare(b[key]);
-        })
-      }))
+  sortList(field: string): void {
+    let sortVector = sortVectorId.ASC
+    if(field === this.sortField){
+      sortVector = this.sortVector === sortVectorId.ASC ? sortVectorId.DESC : sortVectorId.ASC;
     }
+    this.store.dispatch(new SetNotebookSortField(field));
+    this.store.dispatch(new SetNotebookSortVector(sortVector));
+  }
+
+  sortList2(field: string, vector: string): void {
+    this.sortField = field;
+    this.sortVector = vector;
+    this.users = this.users.pipe(map((data) => {
+      const sortedData = data
+        .slice()
+        .sort((a, b) => {
+          if(a[field] instanceof Object){
+            return JSON.stringify(a[field]).localeCompare(JSON.stringify(b[field]));
+          }
+          return a[field].localeCompare(b[field]);
+        })
+      return vector === sortVectorId.ASC ? sortedData : sortedData.reverse()
+    }))
   }
 }
